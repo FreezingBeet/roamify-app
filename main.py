@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QPushButt
 class Roamify(QWidget):
     def __init__(self):
         super().__init__()
-
+        pass
 
 #Show/Run our App
 
