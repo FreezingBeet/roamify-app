@@ -1,68 +1,82 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QPushButton, QCalendarWidget, QVBoxLayout)
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QCalendarWidget, QVBoxLayout
 from PyQt5.QtCore import QDate
 
 
 class Roamify(QWidget):
     def __init__(self):
         super().__init__()
-
         self.setWindowTitle("Roamify")
-        self.resize(800, 600)
-
+        self.resize(400, 350)  # Adjusted height to fit the new input field
+        self.current_theme = "light"  # Start with light theme
         self.initUI()
 
     def initUI(self):
-        # Create all App Objects
+        self.app_name = QLabel("Roamify", self)
+        self.app_name.setStyleSheet("font-size: 18px; font-weight: bold;")
 
-        self.app_name = QLabel("Roamify")   # Will later add an image with Roamify written on it stylistically and the same bg color as that of the app
-        self.location = QLineEdit()
-        self.date_label = QLabel()
-        self.submit_btn = QPushButton("Submit")
+        # Add "From" input
+        self.from_location = QLineEdit(self)
+        self.from_location.setPlaceholderText("From")
 
+        # Add "To" input
+        self.location = QLineEdit(self)
+        self.location.setPlaceholderText("To")
 
-        # Style the Submit Button
-        self.submit_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #007BFF;   /* Blue background */
-                color: white;               /* White text */
-                border-radius: 10px;        /* Rounded corners */
-                font-size: 16px;            /* Font size */
-                padding: 10px 20px;         /* Padding for size */
-            }
-            QPushButton:hover {
-                background-color: #0056b3;  /* Darker blue on hover */
-            }
-            QPushButton:pressed {
-                background-color: #003f7f;  /* Even darker blue on press */
-            }
-        """)
+        self.date_label = QLabel(QDate.currentDate().toString("dd-MM-yyyy"), self)
 
+        self.calendar = QCalendarWidget(self)
+        self.calendar.setMaximumHeight(150)
+        self.calendar.selectionChanged.connect(self.update_date_label)
 
+        self.submit_btn = QPushButton("Submit", self)
 
+        self.theme_btn = QPushButton("Switch to Dark Theme", self)
+        self.theme_btn.clicked.connect(self.toggle_theme)
 
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.app_name)
+        layout.addWidget(self.from_location)
+        layout.addWidget(self.location)
+        layout.addWidget(self.date_label)
+        layout.addWidget(self.calendar)
+        layout.addWidget(self.submit_btn)
+        layout.addWidget(self.theme_btn)
+        self.setLayout(layout)
 
+        self.apply_theme(self.current_theme)
 
-        self.calendar = QCalendarWidget()
-        self.calendar.setSelectedDate(QDate.currentDate())  # Have to add a Minimum and Maximum date range that can be selected
-        self.date_label.setText(QDate.currentDate().toString("dd-MM-yyyy"))
+    def update_date_label(self):
+        self.date_label.setText(self.calendar.selectedDate().toString("dd-MM-yyyy"))
 
-        #All Design Here
+    def toggle_theme(self):
+        if self.current_theme == "light":
+            self.current_theme = "dark"
+            self.theme_btn.setText("Switch to Light Theme")
+        else:
+            self.current_theme = "light"
+            self.theme_btn.setText("Switch to Dark Theme")
+        self.apply_theme(self.current_theme)
 
-        master_layout = QVBoxLayout()
+    def apply_theme(self, theme):
+        if theme == "dark":
+            self.setStyleSheet("""
+                QWidget { background-color: #121212; color: #FFFFFF; }
+                QLineEdit { background-color: #444444; color: #FFFFFF; border: 1px solid #888888; }
+                QPushButton { background-color: #007BFF; color: white; border-radius: 5px; }
+                QPushButton:hover { background-color: #0056b3; }
+                QCalendarWidget { background-color: #222222; color: #FFFFFF; border: none; }
+            """)
+        else:
+            self.setStyleSheet("""
+                QWidget { background-color: #F8F8F8; color: #000000; }
+                QLineEdit { background-color: #FFFFFF; color: #000000; border: 1px solid #CCCCCC; }
+                QPushButton { background-color: #007BFF; color: white; border-radius: 5px; }
+                QPushButton:hover { background-color: #0056b3; }
+                QCalendarWidget { background-color: #FFFFFF; color: #000000; border: none; }
+            """)
 
-        master_layout.addWidget(self.app_name)
-        master_layout.addWidget(self.location)
-        master_layout.addWidget(self.date_label)
-        master_layout.addWidget(self.calendar)
-        master_layout.addWidget(self.submit_btn)
-
-        self.setLayout(master_layout)
-
-
-
-
-#Show/Run our App
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
