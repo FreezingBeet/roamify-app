@@ -20,6 +20,29 @@ class Roamify(QWidget):
         self.date_label = QLabel()
         self.submit_btn = QPushButton("Submit")
 
+
+        # Style the Submit Button
+        self.submit_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #007BFF;   /* Blue background */
+                color: white;               /* White text */
+                border-radius: 10px;        /* Rounded corners */
+                font-size: 16px;            /* Font size */
+                padding: 10px 20px;         /* Padding for size */
+            }
+            QPushButton:hover {
+                background-color: #0056b3;  /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #003f7f;  /* Even darker blue on press */
+            }
+        """)
+
+
+
+
+
+
         self.calendar = QCalendarWidget()
         self.calendar.setSelectedDate(QDate.currentDate())    # Have to add a Minimum and Maximum date range that can be selected
         self.date_label.setText(QDate.currentDate().toString("yyyy-MM-dd"))
