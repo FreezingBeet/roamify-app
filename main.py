@@ -22,6 +22,7 @@ class Roamify(QWidget):
 
         self.calendar = QCalendarWidget()
         self.calendar.setSelectedDate(QDate.currentDate())    # Have to add a Minimum and Maximum date range that can be selected
+        self.calendar.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.date_label.setText(QDate.currentDate().toString("yyyy-MM-dd"))
 
         #All Design Here
