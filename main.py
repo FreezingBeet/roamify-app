@@ -15,14 +15,14 @@ class Roamify(QWidget):
     def initUI(self):
         # Create all App Objects
 
-        self.app_name = QLabel("Roamify")   # Will later add an image with Roamify written on it stylistically and the same bg color as that of the app
+        self.app_name = QLabel("Roamify")    # Will later add an image with Roamify written on it stylistically and the same bg color as that of the app
         self.location = QLineEdit()
         self.date_label = QLabel()
         self.submit_btn = QPushButton("Submit")
 
         self.calendar = QCalendarWidget()
-        self.calendar.setSelectedDate(QDate.currentDate())  # Have to add a Minimum and Maximum date range that can be selected
-        self.date_label.setText(QDate.currentDate().toString("dd-MM-yyyy"))
+        self.calendar.setSelectedDate(QDate.currentDate())    # Have to add a Minimum and Maximum date range that can be selected
+        self.date_label.setText(QDate.currentDate().toString("yyyy-MM-dd"))
 
         #All Design Here
 
