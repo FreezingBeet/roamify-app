@@ -28,12 +28,19 @@ class Roamify(QWidget):
         self.date_label.setAlignment(Qt.AlignCenter)
 
         self.calendar = QCalendarWidget()
-        self.calendar.setSelectedDate(QDate.currentDate())    # Have to add a Minimum and Maximum date range that can be selected
+        current_date = QDate.currentDate()
+        one_year_later = current_date.addYears(1)
+        self.calendar.setMinimumDate(current_date)
+        self.calendar.setMaximumDate(one_year_later)
+
+        self.calendar.setSelectedDate(current_date)
         self.calendar.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
         self.date_label.setText(QDate.currentDate().toString("yyyy-MM-dd"))
 
-        #All Design Here
+        # Update label when date is changed
+        self.calendar.selectionChanged.connect(self.update_date_label)
 
+        # All Design Here
         master_layout = QVBoxLayout()
         master_layout.setContentsMargins(100, 20, 100, 20)
         master_layout.setSpacing(10)
@@ -96,13 +103,12 @@ class Roamify(QWidget):
                             QPushButton:pressed{background-color: #003f7f;}
 """)
 
-        pass
+    def update_date_label(self):
+        selected_date = self.calendar.selectedDate()
+        self.date_label.setText(selected_date.toString("yyyy-MM-dd"))
 
 
-
-
-#Show/Run our App
-
+# Show/Run our App
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = Roamify()
