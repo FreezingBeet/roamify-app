@@ -66,10 +66,10 @@ class Roamify(QWidget):
         self.app_name.setFixedHeight(int(self.height() * 0.2))
 
         self.setStyleSheet("""
-                         QWidget{background-color: hsl(188, 63%, 15%);}
+                         QWidget{background-color: hsl(94, 10%, 86%);}
                          QLineEdit
                          {
-                              background-color: hsl(178, 77%, 18%);
+                              background-color: hsl(31, 48%, 84%);
                               color: #ffffff;
                               padding: 20px;
                               font-weight: bold;
@@ -79,7 +79,7 @@ class Roamify(QWidget):
                          }
                          #date_label
                          {
-                              background-color: hsl(178, 77%, 18%);
+                              background-color: hsl(31, 48%, 84%);
                               color: #ffffff;
                               font-size: 20px;
                               font-weight: bold;
@@ -97,18 +97,18 @@ class Roamify(QWidget):
 
                          QCalendarWidget QToolButton
                          {
-                              background-color: hsl(179, 100%, 33%);
-                              color: white;
+                              background-color: hsl(35, 60%, 96%);
+                              color: black;
                               border-radius: 5px;
                               margin: 5px;
                          }
                          QCalendarWidget QToolButton:hover
                          {
-                              background-color: hsl(179, 100%, 20%);
+                              background-color: hsl(35, 60%, 86%);
                          }
                          QCalendarWidget QToolButton:pressed
                          {
-                              background-color: hsl(178, 77%, 10%);
+                              background-color: hsl(31, 48%, 84%);
                          }
                          QCalendarWidget QTableView QHeaderView::section
                          {
@@ -133,8 +133,8 @@ class Roamify(QWidget):
                          }
                          QPushButton
                          {
-                              background-color: hsl(179, 100%, 33%);   /* Blue background */
-                              color: white;               /* White text */
+                              background-color: hsl(35, 60%, 96%);   /* Blue background */
+                              color: black;               /* White text */
                               border-radius: 10px;        /* Rounded corners */
                               font-size: 20px;            /* Font size */
                               padding: 15px 10px;         /* Padding for size */
@@ -142,8 +142,8 @@ class Roamify(QWidget):
                               font-family: Arial Black;
                          }
 
-                         QPushButton:hover{background-color: hsl(179, 100%, 20%);}
-                         QPushButton:pressed{background-color: hsl(178, 77%, 10%);}
+                         QPushButton:hover{background-color: hsl(35, 60%, 86%);}
+                         QPushButton:pressed{background-color: hsl(31, 48%, 84%);}
 """)
       
 
