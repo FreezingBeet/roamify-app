@@ -20,7 +20,6 @@ class Roamify(QWidget):
         self.date_label = QLabel()
         self.submit_btn = QPushButton("Submit")
 
-
         # Style the Submit Button
         self.submit_btn.setStyleSheet("""
             QPushButton {
@@ -38,19 +37,23 @@ class Roamify(QWidget):
             }
         """)
 
-
-
-
-
-
         self.calendar = QCalendarWidget()
-        self.calendar.setSelectedDate(QDate.currentDate())    # Have to add a Minimum and Maximum date range that can be selected
-        self.date_label.setText(QDate.currentDate().toString("yyyy-MM-dd"))
 
-        #All Design Here
+        # Set date range: current date to one year later
+        current_date = QDate.currentDate()
+        one_year_later = current_date.addYears(1)
+        self.calendar.setMinimumDate(current_date)
+        self.calendar.setMaximumDate(one_year_later)
 
+        # Set the initial selected date to today's date
+        self.calendar.setSelectedDate(current_date)
+        self.date_label.setText(current_date.toString("yyyy-MM-dd"))
+
+        # Update label when date is changed
+        self.calendar.selectionChanged.connect(self.update_date_label)
+
+        # All Design Here
         master_layout = QVBoxLayout()
-
         master_layout.addWidget(self.app_name)
         master_layout.addWidget(self.location)
         master_layout.addWidget(self.date_label)
@@ -59,13 +62,12 @@ class Roamify(QWidget):
 
         self.setLayout(master_layout)
 
-        pass
+    def update_date_label(self):
+        selected_date = self.calendar.selectedDate()
+        self.date_label.setText(selected_date.toString("yyyy-MM-dd"))
 
 
-
-
-#Show/Run our App
-
+# Show/Run our App
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = Roamify()
