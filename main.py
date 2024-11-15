@@ -89,8 +89,8 @@ class Roamify(QWidget):
                          }
                          QCalendarWidget 
                          {
-                              background-color: #f0f8ff;  /* Light blue background */
-                              border: 2px solid #007BFF;  /* Blue border */
+                              background-color: #f0f8ff;
+                              border: 2px solid #007BFF;
                               border-radius: 10px;
                               font-size: 25px;
                          }
@@ -121,23 +121,23 @@ class Roamify(QWidget):
                          }
                          QCalendarWidget QAbstractItemView 
                          {
-                              background-color: #ffffff;  /* White background for dates */
+                              background-color: #ffffff;
                               border: 1px solid #cccccc;
                               color: #000000;
-                              selection-background-color: #007BFF;  /* Blue for selected date */
+                              selection-background-color: #007BFF;
                               selection-color: white;
                          }
                          QCalendarWidget QAbstractItemView::item
                          {
-                              border: 1px solid #007BFF;  /* Border around today's date */
+                              border: 1px solid #007BFF;
                          }
                          QPushButton
                          {
-                              background-color: hsl(35, 60%, 96%);   /* Blue background */
-                              color: black;               /* White text */
-                              border-radius: 10px;        /* Rounded corners */
-                              font-size: 20px;            /* Font size */
-                              padding: 15px 10px;         /* Padding for size */
+                              background-color: hsl(35, 60%, 96%);   
+                              color: black;               
+                              border-radius: 10px;        
+                              font-size: 20px;            
+                              padding: 15px 10px;         
                               font-weight: bold;
                               font-family: Arial Black;
                          }
