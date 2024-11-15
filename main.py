@@ -66,42 +66,86 @@ class Roamify(QWidget):
         self.app_name.setFixedHeight(int(self.height() * 0.2))
 
         self.setStyleSheet("""
-                            QLineEdit
-                           {
-                              background-color: #444444;
+                         QWidget{background-color: hsl(203, 37%, 22%);}
+                         QLineEdit
+                         {
+                              background-color: hsl(44, 97%, 63%);
                               color: #ffffff;
                               padding: 20px;
                               font-weight: bold;
                               font-size: 30px;
-                           }
-                           #date_label
-                           {
-                              background-color: #444444;
+                              border: 1px solid;
+                              border-radius: 5px;
+                         }
+                         #date_label
+                         {
+                              background-color: hsl(44, 97%, 63%);
                               color: #ffffff;
                               font-size: 20px;
                               font-weight: bold;
                               padding: 20px;
                               border: 1px solid;
                               border-radius: 5px;
-                           }
-                           QCalendarWidget
-                           {
+                         }
+                         QCalendarWidget 
+                         {
+                              background-color: #f0f8ff;  /* Light blue background */
+                              border: 2px solid #007BFF;  /* Blue border */
+                              border-radius: 10px;
                               font-size: 25px;
-                           }
-                           QPushButton
-                           {
-                              background-color: #007BFF;   /* Blue background */
+                         }
+
+                         QCalendarWidget QToolButton
+                         {
+                              background-color: hsl(24, 99%, 59%);
+                              color: white;
+                              border-radius: 5px;
+                              margin: 5px;
+                         }
+                         QCalendarWidget QToolButton:hover
+                         {
+                              background-color: hsl(24, 99%, 40%);
+                         }
+                         QCalendarWidget QToolButton:pressed
+                         {
+                              background-color: hsl(44, 97%, 63%);
+                         }
+                         QCalendarWidget QTableView QHeaderView::section
+                         {
+                              background-color: #d3e0ff;
+                              color: #333333;
+                              font-size: 14px;
+                              font-weight: bold;
+                              padding: 5px;
+                              border: none;
+                         }
+                         QCalendarWidget QAbstractItemView 
+                         {
+                              background-color: #ffffff;  /* White background for dates */
+                              border: 1px solid #cccccc;
+                              color: #000000;
+                              selection-background-color: #007BFF;  /* Blue for selected date */
+                              selection-color: white;
+                         }
+                         QCalendarWidget QAbstractItemView::item
+                         {
+                              border: 1px solid #007BFF;  /* Border around today's date */
+                         }
+                         QPushButton
+                         {
+                              background-color: hsl(24, 99%, 59%);   /* Blue background */
                               color: white;               /* White text */
                               border-radius: 10px;        /* Rounded corners */
                               font-size: 20px;            /* Font size */
                               padding: 15px 10px;         /* Padding for size */
                               font-weight: bold;
                               font-family: Arial Black;
-                           }
+                         }
 
-                            QPushButton:hover{background-color: #0056b3;}
-                            QPushButton:pressed{background-color: #003f7f;}
+                         QPushButton:hover{background-color: hsl(24, 99%, 40%);}
+                         QPushButton:pressed{background-color: hsl(44, 97%, 63%);}
 """)
+      
 
     def update_date_label(self):
         selected_date = self.calendar.selectedDate()
