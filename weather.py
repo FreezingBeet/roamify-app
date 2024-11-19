@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt
 
 class Roamify(QWidget):
@@ -7,7 +7,6 @@ class Roamify(QWidget):
         super().__init__()
 
         self.setWindowTitle("Roamify")
-        self.resize(800, 600)  
 
         self.initUI()
 
@@ -17,112 +16,202 @@ class Roamify(QWidget):
             QWidget {
                 background-color: hsl(10, 47%, 40%);
             }
-            QLineEdit {
+            #box-label {
                 background-color: hsl(35, 90%, 81%);
-                color: black;
-                padding: 10px;
+                color: white;
+                padding: 6px;
                 font-size: 16px;
+                font-weight: bold;
                 border: 1px solid #000;
                 border-radius: 5px;
             }
-            QLabel {
+            #label {
                 color: hsl(35, 90%, 81%);
                 font-size: 18px;
                 font-weight: bold;
                 font-family: "Arial";
             }
+            #app-name
+            {
+                color: hsl(35, 90%, 81%);
+                font-size: 50px;
+                font-weight: bold;
+                font-family: "Arial";
+            }
         """)
         
-        self.temp_label = QLabel("TEMPERATURE", self)
-        self.temp_label.setGeometry(313, 10,180, 40)
+        # Create all App Objects
+        self.app_name = QLabel("WEATHER")
+        self.app_name.setObjectName("app-name")
+        self.date_label = QLabel("19-11-2024")
+        self.date_label.setObjectName("box-label")
 
-        # Label for "DATE"
-        self.date_label = QLineEdit("19-11-2024", self)
-        self.date_label.setGeometry(10, 20, 180, 40)  # Positioned as the first item, just like the date picker
+        self.temp_label = QLabel("TEMPERATURE")
+        self.temp_label.setObjectName("label")
 
-        # Label for "MORNING"
-        self.morning_label = QLabel("MORNING", self)
-        self.morning_label.setGeometry(90, 70, 180, 30)  # Shifted slightly down by adjusting y-coordinate
+        self.morning_label = QLabel("MORNING")
+        self.morning_label.setObjectName("label")
+        self.morning_temp = QLabel("self")
+        self.morning_temp.setObjectName("box-label")
 
-        # Morning Temperature input box
-        self.morning_temp = QLineEdit(self)
-        self.morning_temp.setPlaceholderText("Morning Temperature")
-        self.morning_temp.setGeometry(50, 100, 180, 40)  # Position remains the same
+        self.afternoon_label = QLabel("AFTERNOON")
+        self.afternoon_label.setObjectName("label")
+        self.afternoon_temp = QLabel("self")
+        self.afternoon_temp.setObjectName("box-label")
 
-        # Label for "AFTERNOON"
-        self.afternoon_label = QLabel("AFTERNOON", self)
-        self.afternoon_label.setGeometry(328, 70, 180, 30)  # Positioned next to "MORNING" label
+        self.evening_label = QLabel("EVENING")
+        self.evening_label.setObjectName("label")
+        self.evening_temp = QLabel("self")
+        self.evening_temp.setObjectName("box-label")
 
-        # Afternoon Temperature input box
-        self.afternoon_temp = QLineEdit(self)
-        self.afternoon_temp.setPlaceholderText("Afternoon Temperature")
-        self.afternoon_temp.setGeometry(300, 100, 180, 40)  # Correctly positioned
+        self.max_label = QLabel("MAXIMUM")
+        self.max_label.setObjectName("label")
+        self.max_temp = QLabel("self")
+        self.max_temp.setObjectName("box-label")
 
-        # Label for "EVENING"
-        self.evening_label = QLabel("EVENING", self)
-        self.evening_label.setGeometry(600, 70, 180, 30)  # Positioned next to "AFTERNOON" label
+        self.min_label = QLabel("MINIMUM")
+        self.min_label.setObjectName("label")
+        self.min_temp = QLabel("self")
+        self.min_temp.setObjectName("box-label")
 
-        # Evening Temperature input box
-        self.evening_temp = QLineEdit(self)
-        self.evening_temp.setPlaceholderText("Evening Temperature")
-        self.evening_temp.setGeometry(560, 100, 180, 40)  # Positioned next to "EVENING" label
+        self.cloud_label = QLabel("CLOUD COVER")
+        self.cloud_label.setObjectName("label")
+        self.cloud_cover = QLabel("self")
+        self.cloud_cover.setObjectName("box-label")
 
-        # Label for "MAXIMUM" (below existing boxes)
-        self.max_label = QLabel("MAXIMUM", self)
-        self.max_label.setGeometry(220, 160, 180, 30)  # Positioned below the "MORNING" label
+        self.humidity_label = QLabel("HUMIDITY")
+        self.humidity_label.setObjectName("label")
+        self.humidity_lvl = QLabel("self")
+        self.humidity_lvl.setObjectName("box-label")
 
-        # Max Temperature input box (below the others)
-        self.max_temp = QLineEdit(self)
-        self.max_temp.setPlaceholderText("Max Temperature")
-        self.max_temp.setGeometry(180, 190, 180, 40)  # Positioned below the "MORNING" temperature box
+        self.wind_label = QLabel("WIND SPEED")
+        self.wind_label.setObjectName("label")
+        self.wind_speed = QLabel("self")
+        self.wind_speed.setObjectName("box-label")
 
-        # Label for "MINIMUM" (below the "AFTERNOON" label)
-        self.min_label = QLabel("MINIMUM", self)
-        self.min_label.setGeometry(470, 160, 180, 30)  # Positioned below the "AFTERNOON" label
+        self.ppt_label = QLabel("PRECIPITATION")
+        self.ppt_label.setObjectName("label")
+        self.ppt_lvl = QLabel("self")
+        self.ppt_lvl.setObjectName("box-label")
 
-        self.min_temp = QLineEdit(self)
-        self.min_temp.setPlaceholderText("Min Temperature")
-        self.min_temp.setGeometry(430, 190, 180, 40)  # Positioned below the "AFTERNOON" temperature box
+        # All Design Here
 
-        # Add a new block below the "MAXIMUM" and "MINIMUM" section
-        # Label for "MAXIMUM" (second block)
-        self.cloud_label = QLabel("CLOUD COVER", self)
-        self.cloud_label.setGeometry(156, 315, 180, 30)  # Positioned below the first "MAXIMUM"
+        master_layout = QVBoxLayout()
+        master_layout.setContentsMargins(400, 20, 400, 100)
 
-        # Max Temperature input box (second block)
-        self.cloud_cover = QLineEdit(self)
-        self.cloud_cover.setPlaceholderText("CLOUD COVER")
-        self.cloud_cover.setGeometry(140, 345, 180, 40)  # Positioned below the first "Max Temperature" box
+        self.date_label.setFixedWidth(120)
+        self.morning_temp.setFixedWidth(120)
+        self.afternoon_temp.setFixedWidth(120)
+        self.evening_temp.setFixedWidth(120)
+        self.max_temp.setFixedWidth(120)
+        self.min_temp.setFixedWidth(120)
+        self.cloud_cover.setFixedWidth(120)
+        self.wind_speed.setFixedWidth(120)
+        self.humidity_lvl.setFixedWidth(120)
+        self.ppt_lvl.setFixedWidth(120)
 
-        # Label for "MINIMUM" (second block)
-        self.humidity_label = QLabel("HUMIDITY", self)
-        self.humidity_label.setGeometry(530, 315, 180, 30)  # Positioned below the first "MINIMUM" label
+        self.date_label.setFixedHeight(60)
+        self.morning_temp.setFixedHeight(50)
+        self.afternoon_temp.setFixedHeight(50)
+        self.evening_temp.setFixedHeight(50)
+        self.max_temp.setFixedHeight(50)
+        self.min_temp.setFixedHeight(50)
+        self.cloud_cover.setFixedHeight(50)
+        self.wind_speed.setFixedHeight(50)
+        self.humidity_lvl.setFixedHeight(50)
+        self.ppt_lvl.setFixedHeight(50)
 
-        # Min Temperature input box (second block)
-        self.humidity_lvl = QLineEdit(self)
-        self.humidity_lvl.setPlaceholderText("HUMIDITY")
-        self.humidity_lvl.setGeometry(480, 345, 180, 40)  # Positioned below the first "Min Temperature" box
+        row1 = QHBoxLayout()
+        row1.addWidget(self.date_label)
+        row1.addStretch()
+        row1.addWidget(self.app_name)
 
-        self.wind_label = QLabel("WIND SPEED", self)
-        self.wind_label.setGeometry(165, 470, 180, 30)  # Positioned below the second "MAXIMUM"
+        row2 = QHBoxLayout()
+        row2.addStretch()
+        row2.addWidget(self.temp_label)
+        row2.addStretch()
 
-        # Max Temperature input box (third block)
-        self.wind_speed = QLineEdit(self)
-        self.wind_speed.setPlaceholderText("WIND SPEED")
-        self.wind_speed.setGeometry(140, 500, 180, 40)  # Positioned below the second "Max Temperature" box
+        row3 = QHBoxLayout()
+        row3.addStretch()
+        row3.addWidget(self.morning_label)
+        row3.addStretch()
+        row3.addWidget(self.afternoon_label)
+        row3.addStretch()
+        row3.addWidget(self.evening_label)
+        row3.addStretch()
 
-        # Label for "MINIMUM" (third block)
-        self.ppt_label = QLabel("PRECIPITATION", self)
-        self.ppt_label.setGeometry(500, 470, 180, 30)  # Positioned below the second "MINIMUM" label
+        row4 = QHBoxLayout()
+        row4.addStretch()
+        row4.addWidget(self.morning_temp)
+        row4.addStretch()
+        row4.addWidget(self.afternoon_temp)
+        row4.addStretch()
+        row4.addWidget(self.evening_temp)
+        row4.addStretch()
 
-        # Min Temperature input box (third block)
-        self.ppt_lvl = QLineEdit(self)
-        self.ppt_lvl.setPlaceholderText("PRECIPITATION")
-        self.ppt_lvl.setGeometry(480, 500, 180, 40)
+        row5 = QHBoxLayout()
+        row5.addStretch()
+        row5.addWidget(self.min_label)
+        row5.addStretch()
+        row5.addWidget(self.max_label)
+        row5.addStretch()
+
+        row6 = QHBoxLayout()
+        row6.addStretch()
+        row6.addWidget(self.min_temp)
+        row6.addStretch()
+        row6.addWidget(self.max_temp)
+        row6.addStretch()
+
+        row7 = QHBoxLayout()
+        row7.addStretch()
+        row7.addWidget(self.cloud_label)
+        row7.addStretch()
+        row7.addWidget(self.wind_label)
+        row7.addStretch()
+
+        row8 = QHBoxLayout()
+        row8.addStretch()
+        row8.addWidget(self.cloud_cover)
+        row8.addStretch()
+        row8.addWidget(self.wind_speed)
+        row8.addStretch()
+
+        row9 = QHBoxLayout()
+        row9.addStretch()
+        row9.addWidget(self.humidity_label)
+        row9.addStretch()
+        row9.addWidget(self.ppt_label)
+        row9.addStretch()
+
+        row10 = QHBoxLayout()
+        row10.addStretch()
+        row10.addWidget(self.humidity_lvl)
+        row10.addStretch()
+        row10.addWidget(self.ppt_lvl)
+        row10.addStretch()
+
+        master_layout.addLayout(row1)
+        master_layout.addLayout(row2)
+        master_layout.addSpacing(-40)
+        master_layout.addLayout(row3)
+        master_layout.addSpacing(-30)
+        master_layout.addLayout(row4)
+        master_layout.addLayout(row5)
+        master_layout.addSpacing(-30)
+        master_layout.addLayout(row6)
+        master_layout.addLayout(row7)
+        master_layout.addSpacing(-30)
+        master_layout.addLayout(row8)
+        master_layout.addLayout(row9)
+        master_layout.addSpacing(-30)
+        master_layout.addLayout(row10)
+        
+        self.setLayout(master_layout)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = Roamify()
-    main_window.show()
+    main_window.showMaximized()
     sys.exit(app.exec_())
