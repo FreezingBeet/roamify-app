@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QPushButton, QCalendarWidget, QVBoxLayout, QHBoxLayout)
 from PyQt5.QtCore import QDate, Qt
+from PyQt5.QtGui import QPixmap
 
 
 class Roamify(QWidget):
@@ -16,6 +17,8 @@ class Roamify(QWidget):
         # Create all App Objects
 
         self.app_name = QLabel()    # Will later add an image with Roamify written on it stylistically and the same bg color as that of the app
+        self.app_name.setPixmap(QPixmap("Roamify/roamify_logo_temp1.png"))
+        self.app_name.setObjectName("app_name")
 
         self.location = QLineEdit()
         self.location.setPlaceholderText("Enter Location")
@@ -46,30 +49,48 @@ class Roamify(QWidget):
         master_layout.setSpacing(10)
 
         self.submit_btn.setFixedWidth(400)
+        self.location.setFixedWidth(600)
+        self.date_label.setFixedWidth(600)
+        self.calendar.setFixedWidth(600)
 
         button_layout = QHBoxLayout()
         button_layout.addStretch()
         button_layout.addWidget(self.submit_btn)
         button_layout.addStretch()
 
+        location_layout = QHBoxLayout()
+        location_layout.addStretch()
+        location_layout.addWidget(self.location)
+        location_layout.addStretch()
+
+        date_layout = QHBoxLayout()
+        date_layout.addStretch()
+        date_layout.addWidget(self.date_label)
+        date_layout.addStretch()
+
+        calendar_layout = QHBoxLayout()
+        calendar_layout.addStretch()
+        calendar_layout.addWidget(self.calendar)
+        calendar_layout.addStretch()
+
         master_layout.addWidget(self.app_name)
         master_layout.addSpacing(50)
-        master_layout.addWidget(self.location)
+        master_layout.addLayout(location_layout)
         master_layout.addSpacing(40)
-        master_layout.addWidget(self.date_label)
+        master_layout.addLayout(date_layout)
         master_layout.addSpacing(5)
-        master_layout.addWidget(self.calendar)
+        master_layout.addLayout(calendar_layout)
         master_layout.addSpacing(30)
         master_layout.addLayout(button_layout)
 
         self.setLayout(master_layout)
-        self.app_name.setFixedHeight(int(self.height() * 0.2))
+        self.app_name.setFixedHeight(int(self.height() * 0.6))
 
         self.setStyleSheet("""
-                         QWidget{background-color: hsl(94, 10%, 86%);}
+                         QWidget{background-color: hsl(10, 47%, 40%);}
                          QLineEdit
                          {
-                              background-color: hsl(31, 48%, 84%);
+                              background-color: hsl(35, 90%, 81%);
                               color: #ffffff;
                               padding: 20px;
                               font-weight: bold;
@@ -79,7 +100,7 @@ class Roamify(QWidget):
                          }
                          #date_label
                          {
-                              background-color: hsl(31, 48%, 84%);
+                              background-color: hsl(35, 90%, 81%);
                               color: #ffffff;
                               font-size: 20px;
                               font-weight: bold;
