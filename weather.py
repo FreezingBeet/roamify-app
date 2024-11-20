@@ -1,5 +1,6 @@
 import sys
 import requests
+import os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QMessageBox
 from PyQt5.QtCore import Qt
 
@@ -217,7 +218,7 @@ class WeatherPage(QWidget):
         self.get_geocode_data(location, date)
     
     def get_geocode_data(self, location, date):
-        appid = "6dadcf5e1d01d4c4da87e67b6aa8f1fe"
+        appid = os.getenv("API_KEY")
 
         geocode_url = f"http://api.openweathermap.org/geo/1.0/direct?q={location}&limit=1&appid={appid}"
         geocode_response = requests.get(geocode_url)
@@ -236,7 +237,7 @@ class WeatherPage(QWidget):
             QMessageBox.warning(self, "Wrong city", "Sorry! City not found")
 
     def get_weather_data(self, lat, lon, date):
-        appid = "6dadcf5e1d01d4c4da87e67b6aa8f1fe"
+        appid = os.getenv("API_KEY")
 
         weather_url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={appid}&units=metric"
         weather_response = requests.get(weather_url)
