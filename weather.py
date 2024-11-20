@@ -1,8 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout
+import requests
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QMessageBox
 from PyQt5.QtCore import Qt
 
-class Roamify(QWidget):
+class WeatherPage(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -51,47 +52,47 @@ class Roamify(QWidget):
 
         self.morning_label = QLabel("MORNING")
         self.morning_label.setObjectName("label")
-        self.morning_temp = QLabel("self")
+        self.morning_temp = QLabel("0.0")
         self.morning_temp.setObjectName("box-label")
 
         self.afternoon_label = QLabel("AFTERNOON")
         self.afternoon_label.setObjectName("label")
-        self.afternoon_temp = QLabel("self")
+        self.afternoon_temp = QLabel("0.0")
         self.afternoon_temp.setObjectName("box-label")
 
         self.evening_label = QLabel("EVENING")
         self.evening_label.setObjectName("label")
-        self.evening_temp = QLabel("self")
+        self.evening_temp = QLabel("0.0")
         self.evening_temp.setObjectName("box-label")
 
         self.max_label = QLabel("MAXIMUM")
         self.max_label.setObjectName("label")
-        self.max_temp = QLabel("self")
+        self.max_temp = QLabel("0.0")
         self.max_temp.setObjectName("box-label")
 
         self.min_label = QLabel("MINIMUM")
         self.min_label.setObjectName("label")
-        self.min_temp = QLabel("self")
+        self.min_temp = QLabel("0.0")
         self.min_temp.setObjectName("box-label")
 
         self.cloud_label = QLabel("CLOUD COVER")
         self.cloud_label.setObjectName("label")
-        self.cloud_cover = QLabel("self")
+        self.cloud_cover = QLabel("0.0")
         self.cloud_cover.setObjectName("box-label")
 
         self.humidity_label = QLabel("HUMIDITY")
         self.humidity_label.setObjectName("label")
-        self.humidity_lvl = QLabel("self")
+        self.humidity_lvl = QLabel("0.0")
         self.humidity_lvl.setObjectName("box-label")
 
         self.wind_label = QLabel("WIND SPEED")
         self.wind_label.setObjectName("label")
-        self.wind_speed = QLabel("self")
+        self.wind_speed = QLabel("0.0")
         self.wind_speed.setObjectName("box-label")
 
         self.ppt_label = QLabel("PRECIPITATION")
         self.ppt_label.setObjectName("label")
-        self.ppt_lvl = QLabel("self")
+        self.ppt_lvl = QLabel("0.0")
         self.ppt_lvl.setObjectName("box-label")
 
         # All Design Here
@@ -210,8 +211,58 @@ class Roamify(QWidget):
         self.setLayout(master_layout)
 
 
+
+    def update_weather_info(self, location, date):
+        self.date_label.setText(date)
+        self.get_geocode_data(location, date)
+    
+    def get_geocode_data(self, location, date):
+        appid = "6dadcf5e1d01d4c4da87e67b6aa8f1fe"
+
+        geocode_url = f"http://api.openweathermap.org/geo/1.0/direct?q={location}&limit=1&appid={appid}"
+        geocode_response = requests.get(geocode_url)
+        lat = 0
+        lon = 0
+
+        if geocode_response.status_code == 200:
+            try:
+                coord_data = geocode_response.json()
+                lat = str(coord_data[0]['lat'])
+                lon = str(coord_data[0]['lon'])
+                self.get_weather_data(lat, lon, date)
+            except:
+                QMessageBox.warning(self, "Wrong city", "Sorry! City not found")
+        else:
+            QMessageBox.warning(self, "Wrong city", "Sorry! City not found")
+
+    def get_weather_data(self, lat, lon, date):
+        appid = "6dadcf5e1d01d4c4da87e67b6aa8f1fe"
+
+        weather_url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={appid}&units=metric"
+        weather_response = requests.get(weather_url)
+
+        if weather_response.status_code == 200:
+            try:
+                weather_data = weather_response.json()
+
+                self.min_temp.setText(str(weather_data['temperature']['min']) + " C")
+                self.max_temp.setText(str(weather_data['temperature']['max']) + " C")
+                self.morning_temp.setText(str(weather_data['temperature']['morning']) + " C")
+                self.afternoon_temp.setText(str(weather_data['temperature']['afternoon']) + " C")
+                self.evening_temp.setText(str(weather_data['temperature']['evening']) + "C")
+                self.cloud_cover.setText(str(weather_data['cloud_cover']['afternoon']) + "%")
+                self.wind_speed.setText(str(weather_data['wind']['max']['speed']) + "Km/h")
+                self.humidity_lvl.setText(str(weather_data['humidity']['afternoon']) + "%")
+                self.ppt_lvl.setText(str(weather_data['precipitation']['total']) + "%")
+            except:
+                QMessageBox.warning(self, "Error" + str(weather_response.status_code), "Couldn't recieve city's data")
+        else:
+            QMessageBox.warning(self, "Error" + str(weather_response.status_code), "Couldn't recieve city's data")
+
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Roamify()
+    main_window = WeatherPage()
     main_window.showMaximized()
     sys.exit(app.exec_())
