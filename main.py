@@ -3,23 +3,23 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QPushButt
                              QStackedWidget)
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtGui import QPixmap
-from weather import WeatherPage
+from secondpage import SecondPage
 
 
 class Roamify(QWidget):
-     def __init__(self, stack_widget, weather_page):
+     def __init__(self, stack_widget, second_page):
           super().__init__()
 
           self.setWindowTitle("Roamify")
           self.stack_widget = stack_widget
-          self.weather_page = weather_page
+          self.weather_page = second_page
           
           self.initUI()
 
      def initUI(self):
           # Create all App Objects
 
-          self.app_name = QLabel()    # Will later add an image with Roamify written on it stylistically and the same bg color as that of the app
+          self.app_name = QLabel()
           self.app_name.setPixmap(QPixmap("Roamify/roamify_logo_temp1.png"))
           self.app_name.setObjectName("app_name")
 
@@ -132,7 +132,7 @@ class Roamify(QWidget):
                               }
                               QCalendarWidget QToolButton:pressed
                               {
-                                   background-color: hsl(31, 48%, 84%);
+                                   background-color: hsl(31, 48%, 60%);
                               }
                               QCalendarWidget QTableView QHeaderView::section
                               {
@@ -167,7 +167,7 @@ class Roamify(QWidget):
                               }
 
                               QPushButton:hover{background-color: hsl(35, 60%, 86%);}
-                              QPushButton:pressed{background-color: hsl(31, 48%, 84%);}
+                              QPushButton:pressed{background-color: hsl(31, 48%, 60%);}
      """)
           
 
@@ -181,6 +181,7 @@ class Roamify(QWidget):
           selected_date = self.calendar.selectedDate().toString("yyyy-MM-dd")
           location = self.location.text().title()
 
+          self.weather_page.set_location(location)
           self.weather_page.update_weather_info(location, selected_date)
           self.stack_widget.setCurrentIndex(1)
 
@@ -193,11 +194,11 @@ class MainWindow(QWidget):
           self.setWindowTitle("Roamify App")
 
           self.stack_widget = QStackedWidget()
-          self.weather_page = WeatherPage()
-          self.roamify_page = Roamify(self.stack_widget, self.weather_page)
+          self.second_page = SecondPage()
+          self.roamify_page = Roamify(self.stack_widget, self.second_page)
 
           self.stack_widget.addWidget(self.roamify_page)
-          self.stack_widget.addWidget(self.weather_page)
+          self.stack_widget.addWidget(self.second_page)
 
           layout = QVBoxLayout()
           layout.addWidget(self.stack_widget)
