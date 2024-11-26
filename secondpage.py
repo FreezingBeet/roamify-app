@@ -533,7 +533,7 @@ class SecondPage(QWidget):
         if self.adults_spinbox.value() <= 0:
             QMessageBox.warning(self, "Input Error", "Number of Adults must be greater than 0.", QMessageBox.Ok)
             return
-        if self.min_price_spinbox.value() <= 0:
+        if self.min_price_spinbox.value() < 0:
             QMessageBox.warning(self, "Input Error", "Minimum Price must be greater than 0.", QMessageBox.Ok)
             return
         if self.min_price_spinbox.value() > self.max_price_spinbox.value():
