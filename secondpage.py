@@ -485,7 +485,7 @@ class SecondPage(QWidget):
 
     def show_calendar(self, mode):
         """Display the calendar and store the mode (check-in or check-out)."""
-        
+
         while self.hotel_grid_layout.count():
             child = self.hotel_grid_layout.takeAt(0)
             if child.widget():
@@ -603,6 +603,7 @@ class SecondPage(QWidget):
                 hotels = data['properties']
             except:
                 QMessageBox.warning(self, "Error", "Some error occurred")
+                return list_hotels
 
             for i in range(min(4, len(hotels))):
                 hotel = hotels[i]
@@ -634,6 +635,7 @@ class SecondPage(QWidget):
             return list_hotels
         else:
             QMessageBox.warning(self, "Error", "Sorry! Can't recieve hotel data")
+            return list_hotels
 
     def back_to_home(self):
         self.stack_widget.setCurrentIndex(0)
