@@ -47,6 +47,19 @@ class SecondPage(QWidget):
                 font-size: 50px;
                 font-weight: bold;
             }
+            QPushButton
+            {
+                background-color: hsl(35, 60%, 96%);   
+                color: black;               
+                border-radius: 10px;        
+                font-size: 20px;            
+                padding: 15px 10px;         
+                font-weight: bold;
+                font-family: Arial Black;
+            }
+
+            QPushButton:hover{background-color: hsl(35, 60%, 86%);}
+            QPushButton:pressed{background-color: hsl(31, 48%, 60%);}
         """)
         
         # Create all App Objects
@@ -103,10 +116,13 @@ class SecondPage(QWidget):
         self.ppt_lvl = QLabel("0.0")
         self.ppt_lvl.setObjectName("box-label")
 
+        self.back_btn = QPushButton("Back")
+        self.back_btn.clicked.connect(self.back_to_home)
+
         # All Design Here
 
         self.tab1.master_layout = QVBoxLayout()
-        self.tab1.master_layout.setContentsMargins(400, 20, 400, 100)
+        self.tab1.master_layout.setContentsMargins(400, 20, 400, 20)
 
         self.date_label.setFixedWidth(120)
         self.morning_temp.setFixedWidth(120)
@@ -200,6 +216,11 @@ class SecondPage(QWidget):
         row10.addWidget(self.ppt_lvl)
         row10.addStretch()
 
+        row11 = QHBoxLayout()
+        row11.addStretch()
+        row11.addWidget(self.back_btn)
+        row11.addStretch()
+
         self.tab1.master_layout.addLayout(row1)
         self.tab1.master_layout.addLayout(row2)
         self.tab1.master_layout.addSpacing(-40)
@@ -215,6 +236,8 @@ class SecondPage(QWidget):
         self.tab1.master_layout.addLayout(row9)
         self.tab1.master_layout.addSpacing(-30)
         self.tab1.master_layout.addLayout(row10)
+        self.tab1.master_layout.addSpacing(-40)
+        self.tab1.master_layout.addLayout(row11)
         
         self.tab1.setLayout(self.tab1.master_layout)
         tab_layout.addWidget(self.tabs1, 0, 0)
@@ -400,9 +423,22 @@ class SecondPage(QWidget):
     def set_location(self, location):
         self.location = location
 
-    def update_weather_info(self, location, date):
+    def update_weather_info(self, location, date, stack_widget):
         self.date_label.setText(date)
+        self.stack_widget = stack_widget
         self.get_geocode_data(location, date)
+
+        self.check_in_date.setText(date)
+        self.check_out_date.clear()
+        self.adults_spinbox.setValue(1)
+        self.children_spinbox.setValue(0)
+        self.min_price_spinbox.setValue(0)
+        self.max_price_spinbox.setValue(0)
+
+        while self.hotel_grid_layout.count():
+            child = self.hotel_grid_layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
     
     def get_geocode_data(self, location, date):
         appid = os.getenv("API_KEY")
@@ -449,6 +485,13 @@ class SecondPage(QWidget):
 
     def show_calendar(self, mode):
         """Display the calendar and store the mode (check-in or check-out)."""
+        
+        while self.hotel_grid_layout.count():
+            child = self.hotel_grid_layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+        
         self.calendar.show()
         self.calendar_mode = mode
 
@@ -591,6 +634,9 @@ class SecondPage(QWidget):
             return list_hotels
         else:
             QMessageBox.warning(self, "Error", "Sorry! Can't recieve hotel data")
+
+    def back_to_home(self):
+        self.stack_widget.setCurrentIndex(0)
 
 
 

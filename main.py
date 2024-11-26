@@ -182,7 +182,7 @@ class Roamify(QWidget):
           location = self.location.text().title()
 
           self.weather_page.set_location(location)
-          self.weather_page.update_weather_info(location, selected_date)
+          self.weather_page.update_weather_info(location, selected_date, self.stack_widget)
           self.stack_widget.setCurrentIndex(1)
 
 
